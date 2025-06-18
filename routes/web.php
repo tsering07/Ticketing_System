@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Models\Ticket;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 //clicking on ticket will view the raisetaicke blade file 
 
 Route::get('/home', function () {return view('welcome'); })->name('home');
@@ -27,4 +23,4 @@ Route::post('/', [TicketController::class,'index'])->name('indeex');
 //printing the data
 Route::get('/', [TicketController::class, 'index']);
 
-
+Route::get('/Report', function () { return view('Report', ['tickets' => \App\Models\Ticket::all()]); })->name('Report');
