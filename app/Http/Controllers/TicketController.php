@@ -35,16 +35,19 @@ class TicketController extends Controller
         return redirect()->route('raise ticket');  
     }
 
+    public function show(Ticket $ticket){
+        return view('raiseticket',compact('ticket'));
+    }
+
+
     public function create(){
         return view('raiseticket');
         
     }
 
     public function edit(Ticket $ticket){
-
+    return view('raiseticket', compact('ticket'));
     }
-    
-    public function show(Ticket $ticket){}
 
     public function update(Request $request, Ticket $ticket){
         $validated = $request->validate([
@@ -56,16 +59,24 @@ class TicketController extends Controller
             'aname' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-
+        
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads', 'public');
             $validated['image'] = $imagePath;
         }
-
+        
         $ticket->update($validated);
+        
+        return redirect()->route('indeex')->with('success', 'Ticket updated successfully');
     }
 
-    public function destroy(Ticket $ticket){}
+
+    public function destroy(Ticket $ticket){
+        $ticket->delete();
+        return redirect()->route('index');
+        
+    }
 
 
 }
+

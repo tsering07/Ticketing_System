@@ -1,5 +1,5 @@
 <x-navbar>
-    <div class="mt-10 flex justify-center py-10">
+    {{-- <div class="mt-10 flex justify-center py-10">
         <form action="#" method="POST" class="bg-gray-100 p-8 rounded shadow-md w-96">
             <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
 
@@ -17,6 +17,8 @@
 
             <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded">Log In</button>
         </form>
-    </div>
+    </div> --}}
+
+    
 </x-navbar>
 
