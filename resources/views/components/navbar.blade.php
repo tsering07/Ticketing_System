@@ -6,7 +6,7 @@
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
-    <header class="bg-gray-900 text-white shadow-md sticky top-0 z-50 w-full">
+    <header class="bg-gray-700 text-white shadow-md sticky top-0 z-50 w-full">
     <div class="max-w-screen-xl mx-auto px-4">
         <nav class="flex justify-between items-center text-lg font-medium py-4">
             <div class="grid grid-cols-5 gap-0 w-full text-center">

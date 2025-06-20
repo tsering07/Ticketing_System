@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 class TicketController extends Controller
 {
     public function index(){
-    
         $tickets = Ticket::all();
         return view("welcome",compact("tickets"));
     }
@@ -36,7 +35,7 @@ class TicketController extends Controller
     }
 
     public function show(Ticket $ticket){
-        return view('raiseticket',compact('ticket'));
+        return view('show',compact('ticket'));
     }
 
 
@@ -46,9 +45,8 @@ class TicketController extends Controller
     }
 
     public function edit(Ticket $ticket){
-    return view('raiseticket', compact('ticket'));
+        return view('raiseticket', compact('ticket'));
     }
-
     public function update(Request $request, Ticket $ticket){
         $validated = $request->validate([
             'sub' => 'required|string|max:255',
@@ -67,7 +65,7 @@ class TicketController extends Controller
         
         $ticket->update($validated);
         
-        return redirect()->route('indeex')->with('success', 'Ticket updated successfully');
+        return redirect()->route('index')->with('success', 'Ticket updated successfully');
     }
 
 
@@ -77,6 +75,31 @@ class TicketController extends Controller
         
     }
 
+    public function search(Request $request){
+        $query = Ticket::query();
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('dep', 'like', "%$search%")
+                ->orWhere('sub', 'like', "%$search%")
+                ->orWhere('aname','like', "%$search%");
+        }
+
+        $tickets = $query->get();
+
+        return view('SearchTicket', compact('tickets'));
+    }
+    
+    public function showadmin(Request $request,Ticket $ticket){ //passing the ticket variable in the admin page
+        $tickets = Ticket::all();
+        return view('Admin',compact('tickets'));
+    }
 
 }
+
+
+
+
+
+
+
 

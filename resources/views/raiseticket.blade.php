@@ -5,6 +5,7 @@
         enctype="multipart/form-data" 
         class="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
         @csrf
+
         @if(isset($ticket))
             @method('PUT')
         @endif
@@ -13,7 +14,7 @@
         <input type="text" id="sub" name="sub" value="{{ old('sub', $ticket->sub ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
 
         <label for="details">Details:</label>
-        <textarea name="details" rows="1" class="w-full border mb-2 p-2 rounded">{{ old('details', $ticket->details ?? '') }}</textarea><br>
+        <textarea name="details" rows="5" class="w-full border mb-2 p-2 rounded">{{ old('details', $ticket->details ?? '') }}</textarea><br>
 
         <label for="urgency">Urgency:</label>
         <select id="urgency" name="urgency" class="w-full border mb-2 p-2 rounded">
@@ -35,7 +36,7 @@
         <input type="file" id="image" name="image" class="w-full mb-2"><br>
 
         <input type="submit" value="{{ isset($ticket) ? 'Update Ticket' : 'Submit Ticket' }}" 
-            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            class="bg-blue-600 text-white px-4 py-2 rounded">
     </form>
    </div>
 </x-navbar>

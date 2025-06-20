@@ -1,17 +1,49 @@
 <x-navbar>
-
-<form class="max-w-md mx-auto">   
-    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-    <div class="relative">
-        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>
+    <form action="{{ route('Search Ticket') }}" method="GET" class="max-w-md mx-auto my-6">
+        <div class="relative">
+            <input type="search" name="search" value="{{ request('search') }}"
+                class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg"
+                placeholder="Search by ID or Subject..." />
+            <button type="submit"
+                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2">
+                Search
+            </button>
         </div>
-        <input type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Id, Sub, Status..." required />
-        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-    </div>
-</form>
+    </form>
 
+    <!-- it will run if the search is done-->
+    @if(isset($tickets) && $tickets->isNotEmpty())
+    <div class="sm:rounded-lg max-w-7xl mx-auto">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3">Sr No</th>
+                    <th class="px-6 py-3">Subject</th>
+                    <th class="px-6 py-3">Details</th>
+                    <th class="px-6 py-3">Category</th>
+                    <th class="px-6 py-3">Department</th>
+                    <th class="px-6 py-3">Assigned by</th>
+                    <th class="px-6 py-3">Assigned to</th>
+                    <th class="px-6 py-3">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($tickets as $index => $ticket)
+                <tr class="bg-white border-b">
+                    <td class="px-6 py-4">{{ $index + 1 }}</td>
+                    <td class="px-6 py-4">{{ $ticket->sub }}</td>
+                    <td class="px-6 py-4">{{ $ticket->details }}</td>
+                    <td class="px-6 py-4">{{ $ticket->urgency }}</td>
+                    <td class="px-6 py-4">{{ $ticket->dep }}</td>
+                    <td class="px-6 py-4">{{ $ticket->fname }}</td>
+                    <td class="px-6 py-4">{{ $ticket->aname }}</td>
+                    <td class="px-6 py-4">{{ $ticket->status ?? 'Pending' }}</td>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @elseif(request()->has('search'))
+        <p class="text-center text-gray-500 mt-4">No tickets found for your search.</p>
+    @endif
 
 </x-navbar>
