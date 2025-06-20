@@ -13,7 +13,7 @@
         {{-- table --}}
         <div class="w-3/4 bg-white p-6 rounded shadow">
             <h1 class="text-2xl font-bold text-center my-2">Hello Admin Welcome.....</h1>
-             <table class="w-full text-sm text-left text-gray-500">
+             {{-- <table class="w-full text-sm text-left text-gray-500">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th class="px-6 py-3">Sr No</th>
@@ -40,7 +40,7 @@
                 @endforeach
             </tbody>
         </table>
-        </div>
+        </div> --}}
     </div>
 </body>
 </html>

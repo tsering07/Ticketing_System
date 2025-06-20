@@ -8,7 +8,7 @@ class TicketController extends Controller
 {
     public function index(){
         $tickets = Ticket::all();
-        return view("welcome",compact("tickets"));
+        return view("Index",compact("tickets"));
     }
 
     public function store(Request $request)
@@ -21,6 +21,7 @@ class TicketController extends Controller
             'fname' => 'required|string|max:255',
             'aname'=> 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            
         ]);
 
         
@@ -29,7 +30,7 @@ class TicketController extends Controller
             $validated['image'] = $imagePath;
         }
         
-
+        
         Ticket::create($validated);  
         return redirect()->route('raise ticket');  
     }
@@ -65,7 +66,7 @@ class TicketController extends Controller
         
         $ticket->update($validated);
         
-        return redirect()->route('index')->with('success', 'Ticket updated successfully');
+        return redirect()->back()->with('success', 'Ticket updated successfully');
     }
 
 

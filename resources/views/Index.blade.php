@@ -11,14 +11,15 @@
                 <th scope="col" class="px-6 py-3">Assigned by</th>
                 <th scope="col" class="px-6 py-3">Assigned to</th>
                 <th scope="col" class="px-6 py-3">Status</th>
-                <th scope="col" class="px-6 py-3">Show</th>
+                {{-- <th scope="col" class="px-6 py-3">Show</th> --}}
                 <th scope="col" class="px-6 py-3">Edit</th>
                 <th scope="col" class="px-6 py-3">Delete</th>
             </tr>
         </thead>
         <tbody>
             @foreach($tickets as $index => $ticket)
-            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            <tr onclick="window.location='{{route('ticket.show', $ticket->id)}}'" 
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $index + 1 }}
                 </td>
@@ -29,7 +30,7 @@
                 <td class="px-6 py-4">{{ $ticket->fname }}</td>
                 <td class="px-6 py-4">{{ $ticket->aname }}</td>
                 <td class="px-6 py-4">{{ $ticket->status ?? 'Pending' }}</td>
-                <td><a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-sm btn-info px-6 py-4">Show</a></td>
+                {{-- <td><a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-sm btn-info px-6 py-4">Show</a></td> --}}
                 <td> <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-sm btn-primar px-6 py-4y">Edit</a></td>
                 <td><form method="POST" action="{{ route('ticket.destroy', $ticket->id) }}">
                 @csrf

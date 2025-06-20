@@ -12,7 +12,7 @@
             <div class="grid grid-cols-5 gap-0 w-full text-center">
                 <a href="{{ route('index') }}" class="hover:bg-gray-800 py-2 transition">Home</a>
                 <a href="{{ route('Search Ticket')}}" class="hover:bg-gray-800 py-2 transition">Search Ticket</a>
-                <a href="{{ route('Report')}}" class="hover:bg-gray-800 py-2 transition">Report</a>
+                {{-- <a href="{{ route('Report')}}" class="hover:bg-gray-800 py-2 transition">Report</a> --}}
                 <a href="{{ route('raise ticket') }}" class="hover:bg-gray-800 py-2 transition">Raise Ticket</a>
                 <a href="{{ route('Admin') }}" class="hover:bg-gray-800 py-2 transition">Admin</a>
             </div>
