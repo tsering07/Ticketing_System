@@ -26,9 +26,9 @@ Route::get('/', [TicketController::class, 'index'])->name('index');
 Route::get('/search', [TicketController::class, 'search'])->name('Search Ticket'); 
 // Route::get('/Report', function () { return view('Report');})->name('Report');
 Route::get('/Admin', [TicketController::class,'showadmin'])->name('Admin');
+
+
 Route::get('/ticket/create', [TicketController::class, 'create'])->name('raise ticket');
-
-
 Route::post('/ticket', [TicketController::class, 'store'])->name('store'); //Handles form submissions to /ticket by calling the store method in TicketController
 Route::get('/ticket/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
 Route::put('/ticket/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
