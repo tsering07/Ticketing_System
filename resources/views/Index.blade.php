@@ -10,10 +10,14 @@
                 <th scope="col" class="px-6 py-3">Department</th>
                 <th scope="col" class="px-6 py-3">Assigned by</th>
                 <th scope="col" class="px-6 py-3">Assigned to</th>
+                
+                @auth
                 <th scope="col" class="px-6 py-3">Status</th>
                 {{-- <th scope="col" class="px-6 py-3">Show</th> --}}
                 <th scope="col" class="px-6 py-3">Edit</th>
                 <th scope="col" class="px-6 py-3">Delete</th>
+                @endauth
+                
             </tr>
         </thead>
         <tbody>
@@ -29,13 +33,29 @@
                 <td class="px-6 py-4">{{ $ticket->dep }}</td>
                 <td class="px-6 py-4">{{ $ticket->fname }}</td>
                 <td class="px-6 py-4">{{ $ticket->aname }}</td>
-                <td class="px-6 py-4">{{ $ticket->status ?? 'Pending' }}</td>
-                {{-- <td><a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-sm btn-info px-6 py-4">Show</a></td> --}}
+                {{-- <td class="px-6 py-4">{{ $ticket->status ?? 'Pending' }}</td> --}}
+
+                @auth
+                <td onclick="event.stopPropagation()" class="px-6 py-4">
+                    <form method="POST" action="{{ route('ticket.update', $ticket->id) }}">
+                        @csrf
+                        @method('PATCH')
+                        <select name="status" onchange="this.form.submit()" class="bg-white border border-gray-300 rounded px-2 py-1">
+                            @foreach(['pending', 'in_process', 'resolved'] as $status)
+                                <option value="{{ $status }}" {{ $ticket->status === $status ? 'selected' : '' }}>
+                                    {{ ucfirst(str_replace('_', ' ', $status)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
+                </td>
                 <td> <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-sm btn-primar px-6 py-4y">Edit</a></td>
                 <td><form method="POST" action="{{ route('ticket.destroy', $ticket->id) }}">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-sm btn-danger px-6 py-4">Delete</button>
+                @endauth
+                
                 </form>
                 </td>
 

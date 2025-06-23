@@ -11,6 +11,14 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-    'sub', 'details', 'urgency', 'dep', 'fname', 'aname', 'image'
+    'sub', 'details', 'urgency', 'dep', 'fname', 'aname','status', 'remarks','image'
 ];
+    public function remarks()
+    {
+        return $this->hasMany(Remark::class)->latest(); // latest first
+    }
+    public function ticket()
+{
+    return $this->belongsTo(Ticket::class);
+}
 }

@@ -18,7 +18,9 @@ return new class extends Migration
         $table->enum('urgency', ['High', 'Medium', 'Low']);
         $table->string('dep');          
         $table->string('fname');     
-        $table->string('aname');   
+        $table->string('aname');
+        $table->enum('status', ['pending', 'in_process', 'resolved'])->default('pending');   
+        $table->text('remarks')->nullable();
         $table->string('image')->nullable(); 
         $table->timestamps();
     });

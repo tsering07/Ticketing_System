@@ -20,6 +20,7 @@ class TicketController extends Controller
             'dep' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
             'aname'=> 'required|string|max:255',
+            'remarks'=>'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
         ]);
@@ -32,7 +33,7 @@ class TicketController extends Controller
         
         
         Ticket::create($validated);  
-        return redirect()->route('raise ticket');  
+        return redirect()->route('index');  
     }
 
     public function show(Ticket $ticket){
@@ -49,13 +50,42 @@ class TicketController extends Controller
         return view('raiseticket', compact('ticket'));
     }
     public function update(Request $request, Ticket $ticket){
+        if ($request->has('status')) {
+        $request->validate([
+            'status' => 'required|in:pending,in_process,resolved',
+        ]);
+
+        $ticket->status = $request->status;
+        $ticket->save();
+
+        return back()->with('success', 'Status updated.');
+    }
+    
+        if ($request->has('remarks') && !$request->has('sub')) {
+        $request->validate([
+            'remarks' => 'nullable|string',
+        ]);
+
+        // Only allow first time remarks submission
+        if (empty($ticket->remarks)) {
+            $ticket->remarks = $request->remarks;
+            $ticket->save();
+
+            return back()->with('success', 'Remarks added successfully.');
+        } else {
+            return back()->with('error', 'Remarks already exist. You can only edit them from the edit page.');
+        }
+    }
+
+    
         $validated = $request->validate([
             'sub' => 'required|string|max:255',
             'details' => 'required|string',
             'urgency' => 'required|in:High,Medium,Low',
             'dep' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
-            'aname' => 'required|string|max:255',
+            'aname' => 'nullable|string|max:255',
+            'remarks'=>'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         
@@ -66,7 +96,7 @@ class TicketController extends Controller
         
         $ticket->update($validated);
         
-        return redirect()->back()->with('success', 'Ticket updated successfully');
+        return redirect()->route('index')->with('success', 'Ticket updated successfully');
     }
 
 
