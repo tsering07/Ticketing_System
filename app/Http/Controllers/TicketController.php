@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Ticket;
+// use App\Models\User;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
     public function index(){
-        $tickets = Ticket::all();
+        $tickets = Ticket::paginate(8);
         return view("Index",compact("tickets"));
     }
 
@@ -20,7 +21,6 @@ class TicketController extends Controller
             'dep' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
             'aname'=> 'required|string|max:255',
-            // 'remarks'=>'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
         ]);
@@ -49,6 +49,7 @@ class TicketController extends Controller
     public function edit(Ticket $ticket){
         return view('raiseticket', compact('ticket'));
     }
+    
     public function update(Request $request, Ticket $ticket){
         if ($request->has('status')) {
         $request->validate([
@@ -67,7 +68,6 @@ class TicketController extends Controller
             'dep' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
             'aname' => 'nullable|string|max:255',
-            // 'remarks'=>'nullable|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         
@@ -100,15 +100,9 @@ class TicketController extends Controller
         if ($request->filled('urgency')) {
             $query->where('urgency', $request->input('urgency'));
         }
-
             $tickets = $query->get();
 
         return view('SearchTicket', compact('tickets'));
-    }
-    
-    public function showadmin(Request $request,Ticket $ticket){ //passing the ticket variable in the admin page
-        $tickets = Ticket::all();
-        return view('Admin',compact('tickets'));
     }
 
 }

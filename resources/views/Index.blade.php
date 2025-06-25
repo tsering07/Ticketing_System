@@ -10,10 +10,9 @@
                 <th scope="col" class="px-6 py-3">Department</th>
                 <th scope="col" class="px-6 py-3">Assigned by</th>
                 <th scope="col" class="px-6 py-3">Assigned to</th>
-                
+
                 @auth
                 <th scope="col" class="px-6 py-3">Status</th>
-                {{-- <th scope="col" class="px-6 py-3">Show</th> --}}
                 <th scope="col" class="px-6 py-3">Edit</th>
                 <th scope="col" class="px-6 py-3">Delete</th>
                 @endauth
@@ -64,6 +63,7 @@
             
         </tbody>
     </table>
+    <br> {{$tickets->links()}}
 </div>
 </x-navbar>
 

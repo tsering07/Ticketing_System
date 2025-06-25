@@ -19,13 +19,34 @@
 
             <label for="urgency">Urgency:</label>
             <select id="urgency" name="urgency" class="w-full border mb-2 p-2 rounded">
+                <option value="">--Select Urgency--</option>
                 @foreach(['High', 'Medium', 'Low'] as $level)
                     <option value="{{ $level }}" {{ (old('urgency', $ticket->urgency ?? '') == $level) ? 'selected' : '' }}>{{ $level }}</option>
                 @endforeach
             </select><br>
 
             <label for="dep">Department:</label>
-            <input type="text" name="dep" value="{{ old('dep', $ticket->dep ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
+            {{-- <input type="text" name="dep" value="{{ old('dep', $ticket->dep ?? '') }}" class="w-full border mb-2 p-2 rounded"><br> --}}
+            <select id="dep" name="dep" class="w-full border mb-2 p-2 rounded">
+                <option value="">-- Select Department --</option>
+                @php
+                    $departments = [
+                        \App\Models\department::DEPARTMENT_HOME,
+                        \App\Models\department::DEPARTMENT_EDUCATION,
+                        \App\Models\department::DEPARTMENT_INFORMATION,
+                        \App\Models\department::DEPARTMENT_HEALTH,
+                        \App\Models\department::DEPARTMENT_SECURITY,
+                        \App\Models\department::DEPARTMENT_FINANCE,
+                        \App\Models\department::DEPARTMENT_JUSTICE,
+                    ];
+                @endphp
+
+                @foreach($departments as $dept)
+                    <option value="{{ $dept }}" {{ (old('dep', $ticket->dep ?? '') == $dept) ? 'selected' : '' }}>
+                        {{ $dept }}
+                    </option>
+                @endforeach
+            </select>
 
             <label for="fname">Your Name:</label>
             <input type="text" name="fname" value="{{ old('fname', $ticket->fname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
@@ -35,8 +56,8 @@
 
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" class="w-full mb-2"><br>
-
             <input type="submit" value="{{ isset($ticket) ? 'Update Ticket' : 'Submit Ticket' }}" class="bg-blue-600 text-white px-4 py-2 rounded">
+            
         </form>
     </div>
-</x-navbar>
+</x-navbar> 

@@ -15,15 +15,18 @@
                 <a href="{{ route('Search Ticket')}}" class="hover:bg-gray-800 py-2 transition">Search Ticket</a>
                 <a href="{{ route('raise ticket') }}" class="hover:bg-gray-800 py-2 transition">Raise Ticket</a>
                 @endauth
-                {{-- <a href="{{ route('Report') }}" class="hover:bg-gray-800 py-2 transition">Report</a> --}}
                 
                 @guest
                 <a href="{{ route('login') }}" class="text-white hover:bg-gray-800">Login</a>
                 <a href="{{ route('register') }}" class="text-white hover:bg-gray-800">Register</a>
                 @endguest
-
+                
+                {{-- {{dd(auth()->user()->role )}} --}}
+                @if(auth()->check() && auth()->user()->role->name === 'Superadmin')
+                <a href="{{ route('Users') }}">Users</a>
+                @endif
+                
                 @auth
-                {{-- <span class="text-whit mr-2">Welcome, {{ Auth::user()->name }}</span> --}}
                 <a href="{{ route('logout') }}"
                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                 class="text-white hover:bg-gray-800">Logout</a>

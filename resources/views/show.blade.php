@@ -8,10 +8,27 @@
             <p class="text-gray-700"><strong>Department:</strong> <span class="text-gray-900">{{ $ticket->dep }}</span></p>
             <p class="text-gray-700"><strong>Assigned By:</strong> <span class="text-gray-900">{{ $ticket->fname }}</span></p>
             <p class="text-gray-700"><strong>Assigned To:</strong> <span class="text-gray-900">{{ $ticket->aname }}</span></p>
-            <p class="text-gray-700"><strong>Status:</strong> <span class="text-gray-900">{{ $ticket->status ?? 'Pending' }}</span></p>
+
+            <div class="flex items-center text-gray-700">
+            <strong>Status:</strong>
+            <span class="text-gray-900 ml-1">{{ $ticket->status ?? 'Pending' }}</span>
+
+            {{-- <form method="POST" action="{{ route('ticket.update', $ticket->id) }}" class="ml-4">
+                @csrf
+                @method('PATCH')
+                <select name="status" onchange="this.form.submit()" class="border-gray-300 rounded px-2 py-1">
+                    @foreach(['pending', 'in_process', 'resolved'] as $status)
+                        <option value="{{ $status }}" {{ $ticket->status === $status ? 'selected' : '' }}>
+                            {{ ucfirst(str_replace('_', ' ', $status)) }}
+                        </option>
+                    @endforeach
+                </select>
+            </form> --}}
+            </div>
+            
             <p class="text-gray-700"><strong>Raised on:</strong> <span class="text-gray-900">{{$ticket->created_at->format('Y-m-d')}}</span></p>
-        {{-- </div>
-        <div class="mt-6"> --}}<br>
+            
+            <br>
             <a href="{{ route('ticket.edit', $ticket->id) }}"  class="bg-gray-700 text-white px-4 py-2 rounded">Edit</a>
             <a href="{{ route('index') }}" class="bg-gray-700 text-white px-4 py-2 rounded">Back</a>
         </div>
@@ -51,7 +68,7 @@
                 @error('remarks')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Add Remark</button>
+                <button type="submit" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" >Add Remark</button>
             </form>
         </div>
     </div>
