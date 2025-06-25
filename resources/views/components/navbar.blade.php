@@ -16,8 +16,7 @@
                 <a href="{{ route('raise ticket') }}" class="hover:bg-gray-800 py-2 transition">Raise Ticket</a>
                 @endauth
                 {{-- <a href="{{ route('Report') }}" class="hover:bg-gray-800 py-2 transition">Report</a> --}}
-
-
+                
                 @guest
                 <a href="{{ route('login') }}" class="text-white hover:bg-gray-800">Login</a>
                 <a href="{{ route('register') }}" class="text-white hover:bg-gray-800">Register</a>

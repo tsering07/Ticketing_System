@@ -20,7 +20,7 @@ return new class extends Migration
         $table->string('fname');     
         $table->string('aname');
         $table->enum('status', ['pending', 'in_process', 'resolved'])->default('pending');   
-        $table->text('remarks')->nullable();
+        // $table->text('remarks')->nullable();
         $table->string('image')->nullable(); 
         $table->timestamps();
     });

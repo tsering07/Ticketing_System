@@ -2,16 +2,15 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\RemarkController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\ValidUser;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboard', function () {
     return redirect()->route('index');
@@ -31,26 +30,18 @@ require __DIR__.'/auth.php';
 //my routing 
 Route::get('/', [TicketController::class, 'index'])->name('index');
 Route::get('/search', [TicketController::class, 'search'])->name('Search Ticket'); 
-// Route::get('/Report', function () { return view('Report');})->name('Report');
-// Route::get('/Admin', [TicketController::class,'showadmin'])->name('Admin');
 
 
-Route::get('/ticket/create', [TicketController::class, 'create'])->name('raise ticket');
-Route::post('/ticket', [TicketController::class, 'store'])->name('store'); 
-Route::get('/ticket/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit');
-Route::put('/ticket/{ticket}', [TicketController::class, 'update'])->name('ticket.update'); 
-Route::patch('/ticket/{ticket}', [TicketController::class, 'update'])->name('ticket.update');
-Route::delete('/ticket/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy');
-Route::get('/ticket/{ticket}', [TicketController::class, 'show'])->name('ticket.show');    
+Route::prefix('ticket')->group(function () {
+    Route::get('/create', [TicketController::class, 'create'])->name('raise ticket')->middleware(ValidUser::class);
+    Route::post('/', [TicketController::class, 'store'])->name('store'); 
+    Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('ticket.edit')->middleware(AdminMiddleware::class);
+    Route::put('/{ticket}', [TicketController::class, 'update'])->name('ticket.update')->middleware(AdminMiddleware::class);
+    Route::patch('/{ticket}', [TicketController::class, 'update'])->name('ticket.update')->middleware(AdminMiddleware::class);
+    Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('ticket.destroy')->middleware(AdminMiddleware::class);
+    Route::get('/{ticket}', [TicketController::class, 'show'])->name('ticket.show')->middleware(AdminMiddleware::class);
+});
 
-
-
-// Route::prefix('ticket')->name('ticket.')->group(function () {   
-//     Route::post('/', [TicketController::class, 'store'])->name('store');            
-//     Route::get('/{ticket}/edit', [TicketController::class, 'edit'])->name('edit');  
-//     Route::put('/{ticket}', [TicketController::class, 'update'])->name('update');    
-//     Route::delete('/{ticket}', [TicketController::class, 'destroy'])->name('destroy'); 
-//     Route::get('/{ticket}', [TicketController::class, 'show'])->name('show');        
-// });
-Route::post('/ticket/{id}/remark', [TicketController::class, 'addRemark'])->name('ticket.addRemark');
-
+// Remarks CRUD
+Route::post('/ticket/{ticket}/remarks', [RemarkController::class, 'store'])->name('remarks.store');
+Route::resource('remarks', RemarkController::class)->only(['edit', 'update', 'destroy'])->middleware(AdminMiddleware::class);

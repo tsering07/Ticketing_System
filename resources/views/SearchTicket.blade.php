@@ -11,6 +11,23 @@
         </div>
     </form>
 
+    <div class="max-w-7xl mx-auto flex justify-end mb-4">
+            <form action="{{ route('Search Ticket') }}" method="GET" class="flex items-center gap-2">
+                <!-- Preserve search input when filtering -->
+                @if(request('search'))
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+                @endif
+                <label for="urgency" class="text-sm font-medium text-gray-700">Category:</label>
+                <select name="urgency" id="urgency" onchange="this.form.submit()"
+                    class="p-2 border border-gray-300 rounded text-sm">
+                    <option value="" {{ request('urgency') == '' ? 'selected' : '' }}>All</option>
+                    <option value="Low" {{ request('urgency') == 'Low' ? 'selected' : '' }}>Low</option>
+                    <option value="Medium" {{ request('urgency') == 'Medium' ? 'selected' : '' }}>Medium</option>
+                    <option value="High" {{ request('urgency') == 'High' ? 'selected' : '' }}>High</option>
+                </select>
+            </form>
+    </div>
+    
     <!-- it will run if the search is done-->
     @if(isset($tickets) && $tickets->isNotEmpty())
     <div class="sm:rounded-lg max-w-7xl mx-auto">

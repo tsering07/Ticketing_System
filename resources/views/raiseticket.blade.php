@@ -36,13 +36,6 @@
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" class="w-full mb-2"><br>
 
-            @if(isset($ticket))
-            <div class="w-1/3 bg-gray-100 p-4 rounded-lg shadow-md">
-                <label for="remarks">Remarks:</label>
-                <textarea name="remarks" rows="5" class="w-full border mb-2 p-2 rounded">{{ old('remarks', $ticket->remarks ?? '') }}</textarea>
-            </div>
-            @endif
-
             <input type="submit" value="{{ isset($ticket) ? 'Update Ticket' : 'Submit Ticket' }}" class="bg-blue-600 text-white px-4 py-2 rounded">
         </form>
     </div>

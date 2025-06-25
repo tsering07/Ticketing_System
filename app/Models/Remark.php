@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Remark extends Model
 {
-    protected $fillable = ['text'];
+     protected $fillable = ['remarks', 'ticket_id'];
+    public function ticket()
+    {
+        return $this->belongsTo(Ticket::class);
+    }
+
 }
