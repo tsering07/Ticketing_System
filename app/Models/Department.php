@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class department extends Model
 {
+    // public function ticket(){
+    //     return $this->hasMany(Ticket::class);
+    // }
     const DEPARTMENT_HOME = "Department of Home";
     const DEPARTMENT_EDUCATION = "Department of Education";
     const DEPARTMENT_INFORMATION = "Department of Information & International Relations";

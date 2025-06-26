@@ -11,11 +11,17 @@ class Ticket extends Model
     use HasFactory;
 
     protected $fillable = [
-    'sub', 'details', 'urgency', 'dep', 'fname', 'aname','status','image'
+    'sub', 'details', 'urgency', 'dep', 'fname', 'aname','status','image','ip_address'
 ];
     public function remarks()
     {
         return $this->hasMany(Remark::class); 
     }
-    
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    // public function department(){
+    //     return $this->belongsTo(Department::class, 'dep');
+    // }
 }

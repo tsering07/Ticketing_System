@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Ticket;
-// use App\Models\User;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -18,20 +17,24 @@ class TicketController extends Controller
             'sub' => 'required|string|max:255',
             'details' => 'required|string',
             'urgency' => 'required|in:High,Medium,Low',
-            'dep' => 'required|string|max:255',
-            'fname' => 'required|string|max:255',
-            'aname'=> 'required|string|max:255',
+            'dep' => 'required|string|max:255', // convert into department
+            // 'dep' => 'required|exists:department,id',
+            // 'fname' => 'required|string|max:255', not needed we have this field if the user is authenticated
+            'aname'=> 'required|string|max:255',  // convert into userid
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
         ]);
 
-        
+         
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('uploads', 'public');
             $validated['image'] = $imagePath;
         }
         
+
+        $validated['fname'] = auth()->user()->name ?? 'Anonymous';
         
+        $validated['ip_address'] = $request->ip();
         Ticket::create($validated);  
         return redirect()->route('index');  
     }

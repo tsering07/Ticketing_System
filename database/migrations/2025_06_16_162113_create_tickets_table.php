@@ -16,12 +16,13 @@ return new class extends Migration
         $table->string('sub');          
         $table->text('details');        
         $table->enum('urgency', ['High', 'Medium', 'Low']);
-        $table->string('dep');          
+        $table->string('dep'); 
+        // $table->foreign('dep')->references('name')->on('departments')->onDelete('cascade');
         $table->string('fname');     
         $table->string('aname');
         $table->enum('status', ['pending', 'in_process', 'resolved'])->default('pending');   
-        // $table->text('remarks')->nullable();
         $table->string('image')->nullable(); 
+        $table->string('ip_address')->nullable(); 
         $table->timestamps();
     });
 }

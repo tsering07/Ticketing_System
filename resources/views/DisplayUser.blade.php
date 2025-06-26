@@ -66,7 +66,6 @@
             <select name="role" class="border p-2 w-full" required>
                 <option value="user">User</option>
                 <option value="admin">Admin</option>
-                <option value="superadmin">SuperAdmin</option>
             </select>
         </div>
         <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Create User</button>

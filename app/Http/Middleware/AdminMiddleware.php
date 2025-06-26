@@ -19,7 +19,7 @@ class AdminMiddleware
         $user= $request->user();
         // dd($user);
         if (!$user || !in_array($user->role, [UserRole::Admin, UserRole::Superadmin], true)) {
-        abort(403, 'Unauthorized');
+            abort(403, 'Unauthorized');
          }
         return $next($request);
     }

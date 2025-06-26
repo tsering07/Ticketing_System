@@ -25,7 +25,7 @@ class SuperadminController extends Controller
         'password' => $request->password,
         'role' => $request->role,
         ]);
-        return redirect()->route('index')->with('success','');
+         return redirect()->route('Users')->with('success','');
     }
 
     public function edit(Request $request){
@@ -34,6 +34,6 @@ class SuperadminController extends Controller
 
     public function destroy(User $user){
         $user->delete();
-        return redirect()->route('DisplayUser')->with('success','deleted');
+        return redirect()->route('Users')->with('success','deleted');
 }
 }
