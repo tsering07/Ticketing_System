@@ -52,8 +52,11 @@
             <input type="text" name="fname" value="{{ old('fname', $ticket->fname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
 
             <label for="aname">Assigned To:</label>
-            <input type="text" name="aname" value="{{ old('aname', $ticket->aname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
+            <input type="text" name="aname" value="{{ old('aname', default: $ticket->aname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
 
+            <label for="deadline">Deadline:</label>
+            <input type="date" name="deadline" value="{{ old('deadline', isset($ticket) ? $ticket->deadline : '') }} "class="w-full border mb-2 p-2 rounded"><br>
+            
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" class="w-full mb-2"><br>
             <input type="submit" value="{{ isset($ticket) ? 'Update Ticket' : 'Submit Ticket' }}" class="bg-blue-600 text-white px-4 py-2 rounded">

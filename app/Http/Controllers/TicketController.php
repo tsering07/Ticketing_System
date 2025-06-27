@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Ticket;
+use App\Models\department;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
@@ -17,10 +18,11 @@ class TicketController extends Controller
             'sub' => 'required|string|max:255',
             'details' => 'required|string',
             'urgency' => 'required|in:High,Medium,Low',
-            'dep' => 'required|string|max:255', // convert into department
+            'dep' => 'required|string|max:255',//  convert into department
             // 'dep' => 'required|exists:department,id',
             // 'fname' => 'required|string|max:255', not needed we have this field if the user is authenticated
-            'aname'=> 'required|string|max:255',  // convert into userid
+            'aname'=> 'required|string|max:255', // convert into userid
+            'deadline' => 'nullable|date|after_or_equal:today',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
         ]);
@@ -30,10 +32,8 @@ class TicketController extends Controller
             $imagePath = $request->file('image')->store('uploads', 'public');
             $validated['image'] = $imagePath;
         }
-        
 
         $validated['fname'] = auth()->user()->name ?? 'Anonymous';
-        
         $validated['ip_address'] = $request->ip();
         Ticket::create($validated);  
         return redirect()->route('index');  
@@ -71,6 +71,7 @@ class TicketController extends Controller
             'dep' => 'required|string|max:255',
             'fname' => 'required|string|max:255',
             'aname' => 'nullable|string|max:255',
+            'deadline' => 'nullable|date|after_or_equal:today',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         

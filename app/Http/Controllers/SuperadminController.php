@@ -31,9 +31,19 @@ class SuperadminController extends Controller
     public function edit(Request $request){
         return view('DisplayUser', compact(''));
     }
+    public function upadte(Request $request, User $user)
+    {
+        $request->validate([
+            'role' => 'required|in:user,supervisor,admin,superadmin', ]);
+
+        $user->role = $request->role;
+        $user->save();
+
+        return redirect()->route('Users')->with('success', 'Role updated successfully');
+    }
 
     public function destroy(User $user){
         $user->delete();
         return redirect()->route('Users')->with('success','deleted');
-}
+    }
 }

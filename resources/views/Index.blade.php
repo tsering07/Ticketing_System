@@ -11,6 +11,7 @@
                 <th scope="col" class="px-6 py-3">Assigned by</th>
                 <th scope="col" class="px-6 py-3">Assigned to</th>
                 <th scope="col" class="px-6 py-3">Status</th>
+                <th scope="col" class="px-6 py-3">deadline</th>
                 @auth
                 <th scope="col" class="px-6 py-3">IP address</th>
                 <th scope="col" class="px-6 py-3">Edit</th>
@@ -34,8 +35,8 @@
                 <td class="px-6 py-4">{{ $ticket->fname }}</td>
                 <td class="px-6 py-4">{{ $ticket->aname }}</td>
                 <td class="px-6 py-4">{{ $ticket->status ?? 'Pending' }}</td>
+                <td class="px-6 py-4">{{ \Carbon\Carbon::parse($ticket->deadline)->format('d M Y') }}</td>
                 <td class="px-6 py-4">{{ $ticket->ip_address }}</td>
-
 {{--                 
                 <td onclick="event.stopPropagation()" class="px-6 py-4">
                     <form method="POST" action="{{ route('ticket.update', $ticket->id) }}">

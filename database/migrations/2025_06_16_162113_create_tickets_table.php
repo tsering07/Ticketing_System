@@ -23,6 +23,7 @@ return new class extends Migration
         $table->enum('status', ['pending', 'in_process', 'resolved'])->default('pending');   
         $table->string('image')->nullable(); 
         $table->string('ip_address')->nullable(); 
+        $table->date('deadline')->nullable();
         $table->timestamps();
     });
 }

@@ -49,5 +49,6 @@ Route::resource('remarks', RemarkController::class)->only(['edit', 'update', 'de
 Route::get('/users', [SuperadminController::class, 'showUsers'])->name('Users');
 Route::get('/users/create', [SuperadminController::class, 'createUser'])->name('create.user');
 Route::post('/users', [SuperadminController::class, 'storeUser'])->name('store.user');
-// Route::post('user/{user}', [SuperadminController::class, 'destroy'])->name('user.destroy');
 Route::delete('user/{user}', [SuperadminController::class, 'destroy'])->name('user.destroy');
+// Route::post('/users/{user}/role', [SuperadminController::class, 'updateRole'])->name('user.update');
+
