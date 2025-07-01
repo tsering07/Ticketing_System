@@ -28,20 +28,27 @@ class SuperadminController extends Controller
          return redirect()->route('Users')->with('success','');
     }
 
-    public function edit(Request $request){
-        return view('DisplayUser', compact(''));
+    public function edit(Request $users){
+        return view('DisplayUser', compact('users'));
     }
-    public function upadte(Request $request, User $user)
+    public function update(Request $request, User $user)
     {
         $request->validate([
-            'role' => 'required|in:user,supervisor,admin,superadmin', ]);
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|max:255|unique:users,email,' . $user->id,
+            'role'     => 'required|in:user,admin,supervisor,superadmin',
+            'password' => 'nullable|min:6|confirmed',
+        ]);
 
+        $user->name = $request->name;
+        $user->email = $request->email;
         $user->role = $request->role;
+        $user->password = $request->password;
+
         $user->save();
 
-        return redirect()->route('Users')->with('success', 'Role updated successfully');
+        return redirect()->route('Users')->with('success', 'User updated successfully.');
     }
-
     public function destroy(User $user){
         $user->delete();
         return redirect()->route('Users')->with('success','deleted');

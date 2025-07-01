@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Ticket;
-use App\Models\department;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
     public function index(){
-        $tickets = Ticket::paginate(8);
+        $tickets = Ticket::paginate(6);
         return view("Index",compact("tickets"));
     }
 
@@ -18,10 +18,9 @@ class TicketController extends Controller
             'sub' => 'required|string|max:255',
             'details' => 'required|string',
             'urgency' => 'required|in:High,Medium,Low',
-            'dep' => 'required|string|max:255',//  convert into department
+            'dep' => 'required|string|max:255',
             // 'dep' => 'required|exists:department,id',
-            // 'fname' => 'required|string|max:255', not needed we have this field if the user is authenticated
-            'aname'=> 'required|string|max:255', // convert into userid
+            'aname'=> 'required|string|max:255',
             'deadline' => 'nullable|date|after_or_equal:today',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
@@ -62,7 +61,7 @@ class TicketController extends Controller
         $ticket->status = $request->status;
         $ticket->save();
 
-        return redirect()->route('index');
+        return redirect()->route('ticket.show', $ticket->id)->with('success','status updated');
     }
         $validated = $request->validate([
             'sub' => 'required|string|max:255',

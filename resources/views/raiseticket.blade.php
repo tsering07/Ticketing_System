@@ -25,10 +25,11 @@
                 @endforeach
             </select><br>
 
+            {{-- <label for="dep">Department:</label>
+            <input type="text" name="dep" value="{{ old('dep', $ticket->dep ?? '') }}" class="w-full border mb-2 p-2 rounded"><br> --}}
             <label for="dep">Department:</label>
-            {{-- <input type="text" name="dep" value="{{ old('dep', $ticket->dep ?? '') }}" class="w-full border mb-2 p-2 rounded"><br> --}}
-            <select id="dep" name="dep" class="w-full border mb-2 p-2 rounded">
-                <option value="">-- Select Department --</option>
+            <select id="dep" name="dep" class="w-full border mb-2 p-2 rounded" onchange="updateAssignedTo(this.value)">
+            <option value="">-- Select Department --</option>
                 @php
                     $departments = [
                         \App\Models\department::DEPARTMENT_HOME,
@@ -39,12 +40,14 @@
                         \App\Models\department::DEPARTMENT_FINANCE,
                         \App\Models\department::DEPARTMENT_JUSTICE,
                     ];
-                @endphp
 
+                    $handlers = [];
+                    foreach ($departments as $dept) {
+                    $handlers[$dept] = \App\Models\department::getHandlerByDepartment($dept);
+                    }
+                @endphp
                 @foreach($departments as $dept)
-                    <option value="{{ $dept }}" {{ (old('dep', $ticket->dep ?? '') == $dept) ? 'selected' : '' }}>
-                        {{ $dept }}
-                    </option>
+                    <option value="{{ $dept }}" {{ (old('dep', $ticket->dep ?? '') == $dept) ? 'selected' : '' }}> {{ $dept }}</option>
                 @endforeach
             </select>
 
@@ -52,7 +55,8 @@
             <input type="text" name="fname" value="{{ old('fname', $ticket->fname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
 
             <label for="aname">Assigned To:</label>
-            <input type="text" name="aname" value="{{ old('aname', default: $ticket->aname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br>
+            {{-- <input type="text" name="aname" value="{{ old('aname', default: $ticket->aname ?? '') }}" class="w-full border mb-2 p-2 rounded"><br> --}}
+            <input type="text" id="aname" name="aname" value="{{ old('aname', $ticket->aname ?? '') }}" class="w-full border mb-2 p-2 rounded" readonly>
 
             <label for="deadline">Deadline:</label>
             <input type="date" name="deadline" value="{{ old('deadline', isset($ticket) ? $ticket->deadline : '') }} "class="w-full border mb-2 p-2 rounded"><br>
@@ -62,5 +66,22 @@
             <input type="submit" value="{{ isset($ticket) ? 'Update Ticket' : 'Submit Ticket' }}" class="bg-blue-600 text-white px-4 py-2 rounded">
             
         </form>
+
+        <script>
+        // Pass Laravel PHP data to JavaScript
+            const handlers = @json($handlers);
+
+            function updateAssignedTo(department) {
+                document.getElementById('aname').value = handlers[department] || '';
+            }
+
+            // Optional: Run once on page load (for edit form)
+            document.addEventListener("DOMContentLoaded", () => {
+                const selectedDep = document.getElementById('dep').value;
+                if (selectedDep) {
+                    updateAssignedTo(selectedDep);
+                }
+            });
+        </script>
     </div>
 </x-navbar> 
