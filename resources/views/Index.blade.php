@@ -1,4 +1,33 @@
 <x-navbar>
+        <form action="{{ route('index') }}" method="GET" class="max-w-md mx-auto my-6">
+        <div class="relative">
+            <input type="search" name="search" value="{{ request('search') }}"
+                class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg"
+                placeholder="Search by ID or Subject..." />
+            <button type="submit"
+                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2">
+                Search
+            </button>
+        </div>
+    </form>
+    
+    <div class="max-w-7xl mx-auto flex justify-end mb-4">
+            <form action="{{ route('index') }}" method="GET" class="flex items-center gap-2">
+                <!-- Preserve search input when filtering -->
+                @if(request('search'))
+                    <input type="hidden" name="search" value="{{ request('search') }}">
+                @endif
+                <label for="urgency" class="text-sm font-medium text-gray-700">Category:</label>
+                <select name="urgency" id="urgency" onchange="this.form.submit()"
+                    class="p-2 border border-gray-300 rounded text-sm">
+                    <option value="" {{ request('urgency') == '' ? 'selected' : '' }}>All</option>
+                    <option value="Low" {{ request('urgency') == 'Low' ? 'selected' : '' }}>Low</option>
+                    <option value="Medium" {{ request('urgency') == 'Medium' ? 'selected' : '' }}>Medium</option>
+                    <option value="High" {{ request('urgency') == 'High' ? 'selected' : '' }}>High</option>
+                </select>
+            </form>
+    </div>
+
     <div class="shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

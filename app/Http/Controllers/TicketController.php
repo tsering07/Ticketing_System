@@ -7,9 +7,20 @@ use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
-    public function index(){
-        $tickets = Ticket::paginate(6);
-        return view("Index",compact("tickets"));
+    public function index(Request $request){
+        $query = Ticket::query();
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where('dep', 'like', "%$search%")
+                ->orWhere('sub', 'like', "%$search%")
+                ->orWhere('aname', 'like', "%$search%");
+        }
+        if ($request->filled('urgency')) {
+                $query->where('urgency', $request->input('urgency'));
+        }
+        $tickets = $query->get();
+        $tickets = $query->paginate(6)->appends($request->all());
+        return view("Index", compact("tickets"));
     }
 
     public function store(Request $request)

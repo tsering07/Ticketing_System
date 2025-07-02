@@ -4,21 +4,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\RemarkController;
+use App\Http\Controllers\TicketDashboard;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SuperAdminMiddleware;
 use App\Http\Middleware\ValidUser;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('TicketDashboard');
 });
 
 
 Route::get('/dashboard', function () {
-    return redirect()->route('index');
+    return redirect()->route('TicketDashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,10 +27,12 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-//my routing 
-Route::get('/', [TicketController::class, 'index'])->name('index');
+//my routing
+Route::get('/tickets', [TicketController::class, 'index'])->name('index');
 Route::get('/search', [TicketController::class, 'search'])->name('Search Ticket'); 
+Route::get('/', [TicketDashboard::class, 'index'])->name('TicketDashboard');
 
+//tickets
 Route::prefix('ticket')->group(function () {
     Route::get('/create', [TicketController::class, 'create'])->name('raise ticket')->middleware(ValidUser::class);
     Route::post('/', [TicketController::class, 'store'])->name('store'); 
@@ -46,12 +47,13 @@ Route::prefix('ticket')->group(function () {
 Route::post('/ticket/{ticket}/remarks', [RemarkController::class, 'store'])->name('remarks.store');
 Route::resource('remarks', RemarkController::class)->only(['edit', 'update', 'destroy'])->middleware(AdminMiddleware::class);
 
-Route::get('/users', [SuperadminController::class, 'showUsers'])->name('Users');
-Route::get('/users/create', [SuperadminController::class, 'createUser'])->name('create.user');
-Route::post('/users', [SuperadminController::class, 'storeUser'])->name('store.user');
+//userdisplay for superadmin
+Route::prefix('users')->group(function () {
+    Route::get('/', [SuperadminController::class, 'showUsers'])->name('Users');
+    Route::get('/create', [SuperadminController::class, 'createUser'])->name('create.user');
+    Route::post('/', [SuperadminController::class, 'storeUser'])->name('store.user');
+    Route::get('/{user}/edit', [SuperadminController::class, 'edit'])->name('user.edit');
+    Route::put('/{user}', [SuperadminController::class, 'update'])->name('user.update');
+});
 Route::delete('user/{user}', [SuperadminController::class, 'destroy'])->name('user.destroy');
-
-Route::get('/user/edit/{user}', [SuperadminController::class, 'edit'])->name('user.edit');
-Route::patch('/user/update/{user}', [SuperadminController::class, 'update'])->name('user.update');
-
 

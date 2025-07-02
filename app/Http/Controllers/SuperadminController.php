@@ -27,9 +27,10 @@ class SuperadminController extends Controller
         ]);
          return redirect()->route('Users')->with('success','');
     }
-
-    public function edit(Request $users){
-        return view('DisplayUser', compact('users'));
+    public function edit(User $user)
+    {
+        $users = User::all(); 
+        return view('DisplayUser', compact('users', 'user'));
     }
     public function update(Request $request, User $user)
     {
