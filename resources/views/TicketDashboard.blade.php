@@ -1,6 +1,6 @@
 <x-navbar>
     <div style="width: 80%; margin: auto;">
-        {{-- 🟩 Summary Cards --}}
+        {{--  Summary Cards --}}
         <div style="display: flex; justify-content: space-between; gap: 20px; margin-bottom: 40px;">
             <div style="flex: 1; background: #f0f0f0; padding: 20px; text-align: center; border-radius: 10px;">
                 <h3>Total Tickets</h3>
@@ -20,7 +20,7 @@
             </div>
         </div><br>
 
-        {{-- 📊 Charts: Bar + Doughnut --}}
+        {{--  Charts Bar + Doughnut --}}
         <div style="display: flex; justify-content: space-between; gap: 30px;">
             {{-- Bar Chart --}}
             <div style="width: 48%;">
@@ -45,14 +45,14 @@
 
     {{-- 📊 Chart Scripts --}}
     <script>
-        // Bar Chart: Tickets per Department
+        // Bar Chart Tickets per Department
         const deptCtx = document.getElementById('deptChart').getContext('2d');
         new Chart(deptCtx, {
             type: 'bar',
             data: {
                 labels: {!! json_encode($departments) !!}, //x-axis
                 datasets: [{
-                    label: '# of Tickets',
+                    label: 'Ticket raise',
                     data: {!! json_encode($counts) !!}, //y-axis
                     backgroundColor: 'rgba(75, 192, 192, 0.5)',
                     borderColor: 'rgba(75, 192, 192, 1)',
@@ -80,7 +80,7 @@
             }
         });
 
-        // Doughnut Chart: Tickets per Handler
+        // Doughnut Chart Tickets per Handler
         const handlerCtx = document.getElementById('handlerChart').getContext('2d');
         new Chart(handlerCtx, {
             type: 'doughnut',
@@ -90,17 +90,15 @@
                     data: {!! json_encode($handlerCounts) !!},
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
-                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(25, 206, 86, 0.6)',
                         'rgba(54, 162, 235, 0.6)',
-                        'rgba(153, 102, 255, 0.6)',
-                        'rgba(255, 159, 64, 0.6)'
+                        'rgba(0, 102, 255, 0.6)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(54, 162, 235, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(153, 102, 255, 1)'
                     ],
                     borderWidth: 1
                 }]

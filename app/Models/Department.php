@@ -19,7 +19,7 @@ class department extends Model
     public static function getHandlerByDepartment($department)
     {
         $mapping = [
-            self::DEPARTMENT_HOME => 'tsering',
+            self::DEPARTMENT_HOME => 'Tashi',
             self::DEPARTMENT_EDUCATION => 'Tenzin',
             self::DEPARTMENT_INFORMATION => 'Tenzin',
             self::DEPARTMENT_HEALTH => 'Tsering',

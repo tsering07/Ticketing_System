@@ -12,15 +12,21 @@ class TicketController extends Controller
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where('dep', 'like', "%$search%")
-                ->orWhere('sub', 'like', "%$search%")
-                ->orWhere('aname', 'like', "%$search%");
+                ->orWhere('sub', 'like', "%$search%");
         }
         if ($request->filled('urgency')) {
                 $query->where('urgency', $request->input('urgency'));
         }
+
+        if ($request->filled('aname')) {
+        $query->where('aname', $request->input('aname'));
+        }
+        
         $tickets = $query->get();
-        $tickets = $query->paginate(6)->appends($request->all());
-        return view("Index", compact("tickets"));
+        $tickets = $query->paginate(8)->appends($request->all());
+
+        $assignedNames = Ticket::select('aname')->distinct()->pluck('aname');
+        return view("Index", compact("tickets", "assignedNames"));
     }
 
     public function store(Request $request)
@@ -32,7 +38,7 @@ class TicketController extends Controller
             'dep' => 'required|string|max:255',
             // 'dep' => 'required|exists:department,id',
             'aname'=> 'required|string|max:255',
-            'deadline' => 'nullable|date|after_or_equal:today',
+            'deadline' => 'nullable|date',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             
         ]);
@@ -102,22 +108,22 @@ class TicketController extends Controller
         
     }
 
-    public function search(Request $request){
-        $query = Ticket::query();
-        if ($request->filled('search')) {
-            $search = $request->input('search');
-            $query->where('dep', 'like', "%$search%")
-                ->orWhere('sub', 'like', "%$search%")
-                ->orWhere('aname','like', "%$search%");
-        }
+    // public function search(Request $request){
+    //     $query = Ticket::query();
+    //     if ($request->filled('search')) {
+    //         $search = $request->input('search');
+    //         $query->where('dep', 'like', "%$search%")
+    //             ->orWhere('sub', 'like', "%$search%")
+    //             ->orWhere('aname','like', "%$search%");
+    //     }
         
-        if ($request->filled('urgency')) {
-            $query->where('urgency', $request->input('urgency'));
-        }
-            $tickets = $query->get();
+    //     if ($request->filled('urgency')) {
+    //         $query->where('urgency', $request->input('urgency'));
+    //     }
+    //         $tickets = $query->get();
 
-        return view('SearchTicket', compact('tickets'));
-    }
+    //     return view('SearchTicket', compact('tickets'));
+    // }
 
 }
 

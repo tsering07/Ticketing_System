@@ -28,7 +28,20 @@
             </form>
             </div>
             
-            <p class="text-gray-700"><strong>Raised on:</strong> <span class="text-gray-900">{{$ticket->created_at->format('Y-m-d')}}</span></p><br>
+            <p class="text-gray-700"><strong>Raised on:</strong> <span class="text-gray-900">{{$ticket->created_at->format('Y-m-d')}}</span></p>
+            <p class="text-gray-700"><strong>Dateline:</strong> <span class="text-gray-900">{{$ticket->deadline}}</span></p>
+            <p class="text-gray-700"><strong>Image:</strong></p>
+            @if($ticket->image)
+                <a href="{{ asset('storage/' . $ticket->image) }}" target="_blank">
+                    <img src="{{ asset('storage/' . $ticket->image) }}"
+                        alt="Ticket Image"
+                        class="mt-2 rounded shadow cursor-pointer hover:opacity-90"
+                        style="max-width: 300px;">
+                </a>
+            @else
+                <p class="text-gray-500">No image uploaded.</p>
+            @endif <br>
+
             <a href="{{ route('ticket.edit', $ticket->id) }}"  class="bg-gray-700 text-white px-4 py-2 rounded">Edit</a>
             <a href="{{ route('index') }}" class="bg-gray-700 text-white px-4 py-2 rounded">Back</a>
         </div>

@@ -29,10 +29,9 @@ require __DIR__.'/auth.php';
 
 //my routing
 Route::get('/tickets', [TicketController::class, 'index'])->name('index');
-Route::get('/search', [TicketController::class, 'search'])->name('Search Ticket'); 
+// Route::get('/search', [TicketController::class, 'search'])->name('Search Ticket'); 
 Route::get('/', [TicketDashboard::class, 'index'])->name('TicketDashboard');
 
-//tickets
 Route::prefix('ticket')->group(function () {
     Route::get('/create', [TicketController::class, 'create'])->name('raise ticket')->middleware(ValidUser::class);
     Route::post('/', [TicketController::class, 'store'])->name('store'); 

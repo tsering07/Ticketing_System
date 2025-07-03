@@ -1,9 +1,9 @@
 <x-navbar>
-        <form action="{{ route('index') }}" method="GET" class="max-w-md mx-auto my-6">
+        <form action="{{ route('index') }}" method="GET" class="max-w-md mx-auto my-1">
         <div class="relative">
             <input type="search" name="search" value="{{ request('search') }}"
                 class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg"
-                placeholder="Search by ID or Subject..." />
+                placeholder="Search by Subject or Department..." />
             <button type="submit"
                 class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2">
                 Search
@@ -25,8 +25,17 @@
                     <option value="Medium" {{ request('urgency') == 'Medium' ? 'selected' : '' }}>Medium</option>
                     <option value="High" {{ request('urgency') == 'High' ? 'selected' : '' }}>High</option>
                 </select>
+
+                <label for="aname" class="text-sm font-medium text-gray-700">Assigned to:</label>
+                <select name="aname" id="aname" onchange="this.form.submit()"
+                    class="p-2 border border-gray-300 rounded text-sm">
+                    <option value="">All</option>
+                    @foreach($assignedNames as $name)
+                        <option value="{{ $name }}" {{ request('aname') == $name ? 'selected' : '' }}>{{ $name }}</option>
+                    @endforeach
+                </select>
             </form>
-    </div>
+    </div><br>
 
     <div class="shadow-md sm:rounded-lg">
     <table class="w-full text-sm text-left text-gray-500">
