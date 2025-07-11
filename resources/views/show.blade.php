@@ -1,7 +1,7 @@
 <x-navbar>
     <div class="flex w-2/4 mx-auto p-4 gap-4">
         <div class="space-y-4">
-            <h1 class="text-2xl font-semibold mb-4 text-gray-800">Ticket Details</h1>
+            <h1 class="text-3xl font-bold mb-4 text-green-800">Ticket Details</h1>
             <p class="text-gray-700"><strong>Subject:</strong> <span class="text-gray-900">{{ $ticket->sub }}</span></p>
             <p class="text-gray-700"><strong>Details:</strong> <span class="text-gray-900">{{ $ticket->details }}</span></p>
             <p class="text-gray-700"><strong>Urgency:</strong> <span class="text-gray-900">{{ $ticket->urgency }}</span></p>
@@ -12,7 +12,7 @@
             <div class="flex items-center text-gray-700">
             <strong>Status:</strong>
             <span class="text-gray-900 ml-1">{{ $ticket->status ?? 'Pending' }}</span>
-            <p class="mx-3">Update the status</p>
+            <p class="mx-3 font-semibold">Update the status:</p>
             <form method="POST" action="{{ route('ticket.update', $ticket->id) }}" class="ml-4">
                 @csrf
                 @method('PATCH')
@@ -42,8 +42,8 @@
                 <p class="text-gray-500">No image uploaded.</p>
             @endif <br>
 
-            <a href="{{ route('ticket.edit', $ticket->id) }}"  class="bg-gray-700 text-white px-4 py-2 rounded">Edit</a>
-            <a href="{{ route('index') }}" class="bg-gray-700 text-white px-4 py-2 rounded">Back</a>
+            <a href="{{ route('ticket.edit', $ticket->id) }}"  class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">Edit</a>
+            <a href="{{ route('index') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded">Back</a>
         </div>
         
 
