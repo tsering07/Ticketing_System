@@ -1,28 +1,40 @@
 FROM php:8.2-fpm
 
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl zip unzip libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libxml2-dev libzip-dev build-essential \
-    && rm -rf /var/lib/apt/lists/*
+    nginx \
+    git \
+    curl \
+    zip \
+    unzip \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev
 
 # Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
- && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
-# Install composer
-COPY --from=composer:2.5 /usr/bin/composer /usr/bin/composer
+# Get Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files and install dependencies (cache layer)
-COPY composer.json composer.lock* ./
-RUN if [ -f composer.lock ]; then composer install --no-dev --optimize-autoloader --no-interaction --no-scripts; else composer install --no-dev --optimize-autoloader --no-interaction; fi
+# Copy project
+COPY . .
 
-# Copy application
-COPY . /var/www/html
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader
 
-# Ensure storage & cache permissions
-RUN mkdir -p /var/www/html/storage /var/www/html/bootstrap/cache \
- && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# Copy nginx config
+COPY docker/nginx/default.conf /etc/nginx/sites-available/default
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Permissions
+RUN chmod -R 775 storage bootstrap/cache
+
+# Expose Render port
+EXPOSE 10000
+
+# Start services
+CMD service nginx start && php-fpm
