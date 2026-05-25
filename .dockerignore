@@ -1,0 +1,10 @@
+vendor
+node_modules
+.env
+storage/*.key
+.git
+.idea
+.vscode
+/.github
+tests
+README.md
